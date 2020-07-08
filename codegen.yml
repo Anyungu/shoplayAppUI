@@ -1,0 +1,8 @@
+overwrite: true
+schema: "https://shoplay.herokuapp.com/graphql"
+
+generates:
+    
+  src/graphql/graphql.schema.json:
+    plugins:
+      - "fragment-matcher"

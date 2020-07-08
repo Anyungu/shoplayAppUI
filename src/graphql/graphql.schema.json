@@ -1,0 +1,138 @@
+{
+  "__schema": {
+    "types": [
+      {
+        "kind": "UNION",
+        "name": "UserQueryResult",
+        "possibleTypes": [
+          {
+            "name": "UserQueryFound"
+          },
+          {
+            "name": "UserQueryNotFound"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "ShopQueryResult",
+        "possibleTypes": [
+          {
+            "name": "ShopQueryFound"
+          },
+          {
+            "name": "ShopQueryNotFound"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "ShoeQueryResult",
+        "possibleTypes": [
+          {
+            "name": "ShoeQueryFound"
+          },
+          {
+            "name": "ShoeQueryNotFound"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "VoteQueryResult",
+        "possibleTypes": [
+          {
+            "name": "VoteQueryFound"
+          },
+          {
+            "name": "VoteQueryNotFound"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "CategoryQueryResult",
+        "possibleTypes": [
+          {
+            "name": "CategoryQueryFound"
+          },
+          {
+            "name": "CategoryQueryNotFound"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "UserMutationResult",
+        "possibleTypes": [
+          {
+            "name": "UserMutationCommitted"
+          },
+          {
+            "name": "UserMutationNotCommitted"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "ShopMutationResult",
+        "possibleTypes": [
+          {
+            "name": "ShopMutationCommitted"
+          },
+          {
+            "name": "ShopMutationNotCommitted"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "AuthMutationResult",
+        "possibleTypes": [
+          {
+            "name": "AuthMutationCommitted"
+          },
+          {
+            "name": "AuthMutationNotCommitted"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "ShoeMutationResult",
+        "possibleTypes": [
+          {
+            "name": "ShoeMutationCommitted"
+          },
+          {
+            "name": "ShoeMutationNotCommitted"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "VoteMutationResult",
+        "possibleTypes": [
+          {
+            "name": "VoteMutationCommitted"
+          },
+          {
+            "name": "VoteMutationNotCommitted"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "CategoryMutationResult",
+        "possibleTypes": [
+          {
+            "name": "CategoryMutationCommitted"
+          },
+          {
+            "name": "CategoryMutationNotCommitted"
+          }
+        ]
+      }
+    ]
+  }
+}

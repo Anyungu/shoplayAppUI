@@ -1,6 +1,6 @@
 
 
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 
 import {
     View,
@@ -14,7 +14,13 @@ import {
     ActivityIndicator
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {Actions} from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
+import {
+    sendEmail,
+    updateErrorMessage,
+    clearErrorMessage
+} from '../actions/emailActions';
+import { connect } from 'react-redux';
 
 
 
@@ -26,23 +32,49 @@ class landingPage extends Component {
 
     state = {
         emailText: '',
-        buttonTrue: true
     }
 
-    setButtonBackToTrue() {
-        this.setState({
-            buttonTrue: true
-        })
+
+    emailType(value) {
+
+        this.props.clearErrorMessage();
+        this.setState({ emailText: value })
+
     }
+
+
+    errorMessageOrNot() {
+        if (this.props.error !== '' || this.props.error !== null) {
+            return (
+                <View style={{ alignItems: 'center' }}>
+                    <Text style={{ fontFamily: "Montserrat-Light", color: 'red' }}>
+                        {this.props.error}
+                    </Text>
+
+                </View>
+            )
+        }
+    }
+
 
     onLetsGoPress() {
-        this.setState({
-            buttonTrue: false
-        })
-        setTimeout(() => {
-            this.setButtonBackToTrue()
-            Actions.verifyPage()
-        },2500)
+
+        this.props.clearErrorMessage();
+
+        const {
+            emailText
+        } = this.state;
+
+        if (emailText === '' || emailText === null) {
+
+            this.props.updateErrorMessage('Please type a valid email');
+
+        } else {
+
+            this.props.sendEmail(this.state.emailText);
+
+        }
+
 
     }
 
@@ -53,32 +85,32 @@ class landingPage extends Component {
             letsGoButtonText
         } = styles;
 
-        if (this.state.buttonTrue) {
+        if (this.props.loading === false) {
 
-            return(
+            return (
                 <TouchableOpacity
-                    onPress = {this.onLetsGoPress}
-                    >
+                    onPress={this.onLetsGoPress}
+                >
                     <LinearGradient
-                        start={{x: 1, y: 1}} end={{x: 0, y: 0}}
-                        style= {letsGoButtonContainer}
+                        start={{ x: 1, y: 1 }} end={{ x: 0, y: 0 }}
+                        style={letsGoButtonContainer}
                         colors={['#cb2d3e', '#ef473a']}
-                        >
-                        
-                        <Text style = {letsGoButtonText}>
+                    >
+
+                        <Text style={letsGoButtonText}>
                             Cool Lets Go
                         </Text>
-                    
+
                     </LinearGradient>
-                 </TouchableOpacity>
+                </TouchableOpacity>
             )
 
-        }else {
-            return(
-                <View style = {letsGoButtonContainer}>
+        } else {
+            return (
+                <View style={letsGoButtonContainer}>
                     <ActivityIndicator
-                    size = "small"
-                    color = "#cb2d3e"
+                        size="small"
+                        color="#cb2d3e"
                     />
 
                 </View>
@@ -89,78 +121,91 @@ class landingPage extends Component {
 
     render() {
 
-    const {
-        mainContainer,
-        upperPart,
-        lowerPart,
-        emailInputContainer,
-        emailTextInputSpecs,
-        logoContainer,
-        logoText,
-        introductionContainer,
-        welcomeText,
-        introductionText
-    } = styles
+        const {
+            mainContainer,
+            upperPart,
+            lowerPart,
+            emailInputContainer,
+            emailTextInputSpecs,
+            logoContainer,
+            logoText,
+            introductionContainer,
+            welcomeText,
+            introductionText
+        } = styles
 
-    return (
+        return (
 
-        <>
-        <StatusBar backgroundColor= "#ef473a" barStyle="light-content" />
-        <SafeAreaView style = {{flex: 1}}>
-        <View style = {mainContainer}>
-          
-            <LinearGradient
-                start={{x: 1, y: 1}} end={{x: 0, y: 0}}
-                style= {upperPart}
-                colors={['#cb2d3e', '#ef473a']}
-                >
+            <>
+                <StatusBar backgroundColor="#ef473a" barStyle="light-content" />
+                <SafeAreaView style={{ flex: 1 }}>
+                    <View style={mainContainer}>
 
-                <View style = {logoContainer}>
-                    <Text style = {logoText}>
-                        Shoplay
+                        <LinearGradient
+                            start={{ x: 1, y: 1 }} end={{ x: 0, y: 0 }}
+                            style={upperPart}
+                            colors={['#cb2d3e', '#ef473a']}
+                        >
+
+                            <View style={logoContainer}>
+                                <Text style={logoText}>
+                                    Shoplay
                     </Text>
 
-                </View>
+                            </View>
 
-                <View style = {introductionContainer}>
-                    <Text style = {welcomeText}>
-                        Welcome
+                            <View style={introductionContainer}>
+                                <Text style={welcomeText}>
+                                    Welcome
                     </Text>
 
-                    <Text style = {introductionText}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam tincidunt efficitur gravida. Quisque viverra enim at suscipit dapibus. Nulla facilisi.  Quisque viverra enim at suscipit dapibus. Nulla facilisi.  Quisque viverra enim at suscipit dapibus. Nulla facilisi. 
+                                <Text style={introductionText}>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam tincidunt efficitur gravida. Quisque viverra enim at suscipit dapibus. Nulla facilisi.  Quisque viverra enim at suscipit dapibus. Nulla facilisi.  Quisque viverra enim at suscipit dapibus. Nulla facilisi.
 
                     </Text>
 
-                </View>
+                            </View>
 
-            </LinearGradient>
+                        </LinearGradient>
 
-            
-            <View style = {lowerPart}>
-                <View style= {emailInputContainer}>
-                    <TextInput
-                        placeholder= "  Email  "
-                        placeholderTextColor= "rgba(204, 50, 50, 0.56)"
-                        value = {this.state.emailText}
-                        onChangeText = {value => this.setState({emailText: value})}
-                        style = {emailTextInputSpecs}
-                        />
+                        {this.errorMessageOrNot()}
 
-                </View>
 
-               {this.letsGoButtonOrSpinner()}
-                
-            </View>
-        </View>
-        </SafeAreaView>
-        </>
-    );
+                        <View style={lowerPart}>
+                            <View style={emailInputContainer}>
+                                <TextInput
+                                    placeholder="  Email  "
+                                    placeholderTextColor="rgba(204, 50, 50, 0.56)"
+                                    value={this.state.emailText}
+                                    onChangeText={value => this.emailType(value)}
+                                    style={emailTextInputSpecs}
+                                />
+
+                            </View>
+
+                            {this.letsGoButtonOrSpinner()}
+
+                        </View>
+                    </View>
+                </SafeAreaView>
+            </>
+        );
     }
 
 }
 
-export default landingPage;
+
+const mapStateToProps = ({ emailReducer }) => {
+
+    const { email, error, loading } = emailReducer;
+
+    return { email, error, loading };
+
+};
+
+export default connect(mapStateToProps, { sendEmail, updateErrorMessage, clearErrorMessage })(landingPage);
+
+
 
 const {
     width,
@@ -196,7 +241,7 @@ const styles = StyleSheet.create({
         fontSize: height * 0.03,
         paddingVertical: height * 0.0125,
         fontFamily: "Montserrat-Light"
-   
+
     },
     letsGoButtonContainer: {
         width: width * 0.45,
@@ -204,7 +249,7 @@ const styles = StyleSheet.create({
         borderRadius: width * 0.1,
         marginVertical: height * 0.0125,
         paddingVertical: height * 0.0125,
-        alignItems:'center',
+        alignItems: 'center',
         justifyContent: 'center'
     },
     letsGoButtonText: {
@@ -228,7 +273,7 @@ const styles = StyleSheet.create({
         flex: 2,
         alignItems: 'center',
         paddingHorizontal: width * 0.15,
-        
+
     },
     welcomeText: {
         fontSize: height * 0.04,
